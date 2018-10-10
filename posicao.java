@@ -16,12 +16,10 @@ class Atleta{
 	private int idade;
 	private double peso;
 	private Posicao posicao;
-	private Time time;
 	Atleta(String name, int age, double weight,Time timejogador,Posicao posicao){
 		this.nome = name;
 		this.idade = age;
 		this.peso = weight;
-		this.time = timejogador;
 	}
 	public String getnome() {
 		return this.nome;
@@ -47,6 +45,7 @@ class Time{
 	}
 	public void addjogador(String name,int age,double weight,Time timejogador, Posicao posicao) {
 		atletas.add(new Atleta( name, age, weight,timejogador,posicao));
+		
 	}
 	public void excluirjogador(String name) {
 		for(Atleta jogador : atletas) {
@@ -75,7 +74,7 @@ class Partida{
 	private int placarTime1;
 	private int placarTime2;
 	private Time vencedor;
-	public void DefinirPartida(Time time1, Time time2) {
+	Partida(Time time1, Time time2) {
 		this.time1 = time1;
 		this.time2 = time2;
 	}
@@ -109,13 +108,45 @@ class Partida{
 
 		}
 	}
+	public Time gettime1() {
+		return time1;
+	}
+	public Time gettime2() {
+		return time2;
+	}
 }
+//modelo de campeonato no estilo mata-mata, cujo qual não é possivel dois times jogarem duas vezes
 class Campeonato {
 	Time timevencedor;
 	List<Partida> partidas = new ArrayList<>();
 	List<Time> times = new ArrayList<>();
-	private void addtime(String nometime) {
-		times.add(new Time(nometime));
+	public void addtime(Time time) {
+		times.add(time);
 	}
+	public void addpartida(Partida partida) {
+		partidas.add(partida);
+	}
+	public void procurarpartida(String nometime1, String nometime2) {
+		for(Partida partida : partidas) {
+			if(nometime1 == partida.gettime1().getnome() && nometime2 == partida.gettime2().getnome()) {
+				System.out.println(partida.finalizarpartida());
+				break;
+			}
+			else if(nometime1 == partidas.get(partidas.size()-1).gettime1().getnome()&& nometime2 == partidas.get(partidas.size()-1).gettime2().getnome()) {
+				System.out.println("Partida não encontrada");
+			}
+		}
+	}
+	public void definirtimevencedor(String nometimevencedor) {
+		for(Time time: times) {
+			if(nometimevencedor == time.getnome()) {
+				this.timevencedor = time;
+				break;
+			}
+			else if(nometimevencedor == times.get(times.size()-1).getnome()) {
+				System.out.println("Impossivel encontrar esse time");
+			}
+		}
+	} 
 } 
 	
